@@ -14,6 +14,10 @@ function main(){
 	$url = $argv[1];
 	print("URL: $url\n");
 
+	// フォルダ名
+	$folder = preg_replace('/[\:\/]/', '_', $url);
+	@mkdir($folder);
+
 	// HTML取得
 	$context = stream_context_create(
 		array(
@@ -42,7 +46,7 @@ function main(){
 				$fname = sprintf("%03d.jpg", $index);
 				// 取得・保存
 				$content = file_get_contents($href, false, $context);
-				file_put_contents($fname, $content);
+				file_put_contents($folder . '/' . $fname, $content);
 				// 次のインデックス
 				$index++;
 			}
