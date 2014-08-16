@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+img{
+	float: right;
+	width: 47%;
+	margin-left: 8px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	border-bottom: 1px solid #888;
+}
+div{
+	float: right;
+	width: 100%;
+	height: 2px;
+	background-color: #888;
+	margin-top: 8px;
+	margin-top: 8px;
+}
+</style>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+jQuery(function(){
+	// アンカー設置
+	var index = 0;
+	jQuery('div').each(function(){
+		jQuery(this).attr('id', "div" + index);
+		index++;
+	});
+	// 現在アンカー
+	window.g_anchor = 0;
+	window.g_anchorMax = index - 1;
+	
+	// キーイベント
+	jQuery('html').keydown(function(e){
+		switch(e.which) {
+		case 38: // up
+		case 39: // right
+			console.log("right");
+			// 前へ
+			window.g_anchor--;
+			if(window.g_anchor < 0)window.g_anchor = 0;
+			// スクロール
+			var target = jQuery('#div' + window.g_anchor);
+			var targetOffset = target.offset().top;
+			console.log("offset = " + targetOffset);
+			$('html,body').animate({ scrollTop: targetOffset }, 'fast');
+			return false;
+
+		case 40: // down
+		case 37: // left
+			// 次へ
+			window.g_anchor++;
+			if(window.g_anchor > window.g_anchorMax)window.g_anchor = window.g_anchorMax;
+			// スクロール
+			var target = jQuery('#div' + window.g_anchor);
+			var targetOffset = target.offset().top;
+			console.log("offset = " + targetOffset);
+			$('html,body').animate({ scrollTop: targetOffset }, 'fast');
+			return false;
+		}
+	});
+});
+</script>
+</head>
+<body>
+{images}
+</body>
+</html>

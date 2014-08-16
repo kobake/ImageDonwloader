@@ -8,7 +8,7 @@ del url.tmp
 if "%url%" == "" goto error
 
 : ImageDownloader‹N“®
-php ImageDownloader.php "%url%"
+php ImageDownloader.php "%url%" --htmlview
 pause
 exit
 

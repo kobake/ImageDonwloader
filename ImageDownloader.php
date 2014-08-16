@@ -11,11 +11,25 @@ function main(){
 		print("Usage: php ImageDownloader.php <url>\n");
 		exit(0);
 	}
+
+	// パラメータ
 	$url = $argv[1];
 	print("URL: $url\n");
+	if(!preg_match('/^http/', $url)){
+		print("Error: Invalid URL.\n");
+		exit(1);
+	}
+	$url = preg_replace('/\#[A-Za-z0-9\_\-]+$/', '', $url);
+	print("URL2: $url\n");
+
+	// オプション
+	$opt_htmlview = false;
+	if(in_array('--htmlview', $argv)){
+		$opt_htmlview = true;
+	}
 
 	// フォルダ名
-	$folder = preg_replace('/[\:\/]/', '_', $url);
+	$folder = getcwd() . DIRECTORY_SEPARATOR . preg_replace('/[\:\/]/', '_', $url);
 	@mkdir($folder);
 
 	// HTML取得
@@ -51,6 +65,14 @@ function main(){
 				$index++;
 			}
 		}
+	}
+
+	// HtmlView起動
+	if($opt_htmlview){
+		$phpPath = dirname(__FILE__) . '/HtmlView/HtmlView.php';
+		$cmd = 'php ' . escapeshellarg($phpPath) . ' ' . escapeshellarg($folder);
+		print("CMD: $cmd\n");
+		system($cmd);
 	}
 }
 
