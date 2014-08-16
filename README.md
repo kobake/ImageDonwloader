@@ -1,4 +1,4 @@
-ImageDonwloader
+ImageDownloader
 ===============
 
 Simple image downloader
